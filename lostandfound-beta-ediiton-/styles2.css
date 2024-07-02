@@ -1,0 +1,61 @@
+body {
+    background-color: #f0f0f0; /* Light gray background */
+    background-image: url("kristu-jayanti-college-of-management-and-technology-kjc-bangalore.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    margin: 0; /* Remove default body margin */
+    height: 100vh; /* Ensure full viewport height */
+    display: flex; /* Use flexbox for centering */
+     /* Center horizontally */
+    align-items: center; /* Center vertically */
+  }
+  
+  .container {
+    width: 80%; /* 80% of the viewport width */
+    max-width: 600px; /* Maximum width of 400px */
+    background-color: #ffffff; /* White background for the login form */
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1); /* Soft shadow effect */
+    text-align: left; /* Center align text content */
+    margin-bottom: 10%;
+  }
+  
+  .logo-container {
+    margin-bottom: 0px; /* Spacing below the logo */
+  }
+  .logo-container img{
+    width: 90%;
+    height: 20%;
+  }
+  
+  h4 {
+    margin-bottom: 2px; 
+    margin-top: 0%;/* Spacing below the heading */
+  }
+  .small-form {
+    max-width: 100%;
+    ; /* Full width for small form */
+  }
+  
+  .form-check-label {
+    font-size: 0.8rem; /* Adjust checkbox label size */
+  }
+  
+  .btn-primary {
+    width: 100%; /* Full-width login button */
+    margin-top: 10px; /* Spacing above the button */
+    font-size: 0.9rem; /* Adjust button font size */
+    padding: 8px; /* Padding inside the button */
+  }
+  
+  .small-link {
+    font-size: 0.8rem; /* Adjust link font size */
+    color: #007bff; /* Blue color for the link (Bootstrap primary color) */
+    text-decoration: none; /* Remove underline */
+    margin-left: 10px; /* Spacing between Remember Me and Forgot Password */
+  }
+  
+  .small-link:hover {
+    text-decoration: underline; /* Underline on hover */
+  }  

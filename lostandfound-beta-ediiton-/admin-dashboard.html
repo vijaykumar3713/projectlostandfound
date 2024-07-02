@@ -1,0 +1,107 @@
+<style>
+    body {
+        font-family: 'Poppins', sans-serif;
+        background-color: #f8f9fa;
+    }
+    .navbar {
+        padding: 10px 20px;
+        background-color: rgba(52, 73, 94, 1) !important;
+    }
+    .navbar-brand {
+        font-family: Arial, sans-serif;
+        font-size: 1.5rem;
+        font-weight: bold;
+    }
+    .navbar-nav .nav-link {
+        color: #ffffff !important;
+        font-weight: bold;
+    }
+    .content {
+        margin: 20px;
+    }
+    h2 {
+        font-size: 24px;
+        margin-bottom: 20px;
+        font-weight: 600;
+    }
+    .form-group {
+        margin-bottom: 15px;
+    }
+    button.btn-primary {
+        background-color: rgb(244, 244, 249);
+        color: blue;
+        border: 1px solid blue;
+        padding: 10px 20px;
+        border-radius: 4px;
+        transition: background-color 0.3s;
+    }
+    button.btn-primary:hover {
+        background-color: rgb(147, 202, 229);
+    }
+    .header-image {
+        width: 100%;
+        min-height: 300px;
+        height: auto;
+        margin-bottom: 20px; /* Space between header image and button */
+    }
+    .card {
+        margin-bottom: 20px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        background-color: #fff;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Box shadow for card */
+        display: flex; /* Use flexbox */
+        flex-direction: column; /* Column layout for flexbox */
+        height: 100%; /* Ensure card takes full height of parent */
+    }
+    .card-body {
+        padding: 15px;
+        flex: 1; /* Allow card-body to grow within flex container */
+    }
+    .card-title {
+        font-weight: 600;
+        font-size: 18px;
+        margin-bottom: 10px;
+    }
+    .card-text {
+        margin-bottom: 10px;
+        font-size: 14px;
+        overflow: hidden; /* Ensure text overflow is hidden */
+        display: -webkit-box;
+        -webkit-line-clamp: 5; /* Limit to 5 lines of text */
+        -webkit-box-orient: vertical;
+    }
+    .card-text small {
+        display: block;
+        margin-top: 5px;
+        color: #6c757d;
+    }
+    .button-group {
+        margin-bottom: 20px;
+        text-align: center;
+    }
+    .button-group .btn {
+        margin: 0 10px;
+    }
+    .highlight {
+        background-color: #1d5fe2;
+        color: #ffffff;
+        border: 1px solid #1d5fe2;
+    }
+    @media (max-width: 768px) {
+        .navbar-brand {
+            font-size: 1.25rem;
+        }
+        .header-image {
+            min-height: 200px;
+        }
+        .button-group .btn {
+            display: block;
+            width: 100%;
+            margin: 10px 0;
+        }
+        .card {
+            margin-bottom: 15px;
+        }
+    }
+</style>

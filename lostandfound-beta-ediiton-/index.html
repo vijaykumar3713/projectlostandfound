@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lost and Found</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-wVDV4aHV5in6tU4vO7vsRxfxdR5Y4s2uB7F4EBilvY9Xz5PaUC3x7d5auOucL1g+RSeX88DgR0iA+0zTPTQJLQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8f9fa;
+        }
+        .navbar {
+            padding: 10px 20px;
+            background-color: rgba(52, 73, 94, 1) !important;
+        }
+        .navbar-brand {
+            font-family: Arial, sans-serif;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        .navbar-nav .nav-link {
+            color: #ffffff !important;
+            font-weight: bold;
+        }
+        .navbar-nav .nav-link:hover {
+            text-decoration: underline;
+        }
+        .content {
+            margin: 20px;
+        }
+        h2 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        button.btn-primary {
+            background-color: rgb(244, 244, 249);
+            color: blue;
+            border: 1px solid blue;
+            padding: 10px 20px;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+        button.btn-primary:hover {
+            background-color: rgb(147, 202, 229);
+        }
+        .header-image {
+            width: 100%;
+            min-height: 300px;
+            height: auto;
+            margin-bottom: 20px; /* Space between header image and button */
+        }
+        .card {
+            margin-bottom: 20px; /* Adjusted margin bottom for spacing between cards */
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Box shadow for card */
+            display: flex; /* Use flexbox */
+            flex-direction: column; /* Column layout for flexbox */
+            height: 100%; /* Ensure card takes full height of parent */
+        }
+        .card-body {
+            padding: 15px;
+            flex: 1; /* Allow card-body to grow within flex container */
+        }
+        .card-title {
+            font-weight: 600;
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+        .card-text {
+            margin-bottom: 10px;
+            font-size: 14px;
+            overflow: hidden; /* Ensure text overflow is hidden */
+            display: -webkit-box;
+            -webkit-line-clamp: 5; /* Limit to 5 lines of text */
+            -webkit-box-orient: vertical;
+        }
+        .card-text small {
+            display: block;
+            margin-top: 5px;
+            color: #6c757d;
+        }
+        .button-group {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .button-group .btn {
+            margin: 0 10px;
+        }
+        .highlight {
+            background-color: #1d5fe2;
+            color: #ffffff;
+            border: 1px solid #1d5fe2;
+        }
+        @media (max-width: 768px) {
+            .navbar-brand {
+                font-size: 1.25rem;
+            }
+            .header-image {
+                min-height: 200px;
+            }
+            .button-group .btn {
+                display: block;
+                width: 100%;
+                margin: 10px 0;
+            }
+            .card {
+                margin-bottom: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+<!-- Navigation Bar -->
+<nav class="navbar navbar-expand-md navbar-dark navbar-bg p-4">
+    <div class="container-fluid">
+        <img src="kjc-flag-latest.png" width="290" height="auto" alt="Logo" class="navbar-logo">
+        <span class="navbar-text mx-auto text-white" style="font-size: 1.5rem;">Lost and Found</span>
+        <form class="d-flex" role="search">
+            <a href="login.html" class="btn btn-primary submit" type="submit">Login</a>
+        </form>
+    </div>
+</nav>
+
+<img src="Rectangle 10.png" class="header-image" alt="Header Image">
+
+<div class="button-group">
+    <button class="btn btn-primary highlight" id="show-lost">Lost Items</button>
+    <button class="btn btn-primary" id="show-found">Found Items</button>
+    <button class="btn btn-primary" id="sort-date-asc">Sort by Date</button>
+    <button class="btn btn-primary request-button" data-toggle="modal" data-target="#requestModal">Request Form</button>
+</div>
+
+<div class="content">
+    <div class="row" id="items-container">
+        <!-- Items will be added here -->
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Item Name</h5>
+                    <p class="card-text">Description text goes here. Make sure this box is similar in size as well as add shadow to look nice. Description text goes here. Make sure this box is similar in size as well as add shadow to look nice.</p>
+                    <p class="card-text"><small class="text-muted">Owner: John Doe</small></p>
+                    <a class="btn btn-secondary request-button" href="#">Request Form</a>
+                </div>
+            </div>
+        </div>
+        <!-- Example card. Repeat this structure for each item dynamically added. -->
+    </div>
+</div>
+<!-- Request Form Modal -->
+<div class="modal fade" id="requestModal" tabindex="-1" aria-labelledby="requestModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="requestModalLabel">Request Form</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="requestForm">
+                    <div class="form-group">
+                        <label for="username">Username:</label>
+                        <input type="text" id="username" name="username" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">College Email ID:</label>
+                        <input type="email" id="email" name="email" class="form-control" required>
+                        <div class="invalid-feedback">Please enter a valid college email address.</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="itemId">Item ID:</label>
+                        <input type="text" id="itemId" name="itemId" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Request Message:</label>
+                        <textarea id="message" name="message" class="form-control" rows="3" required></textarea>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Lost and Found Items Containers -->
+<div class="container">
+    <div class="row" id="lost-items">
+        <!-- Lost items will be dynamically inserted here -->
+    </div>
+    <div class="row" id="found-items">
+        <!-- Found items will be dynamically inserted here -->
+    </div>
+</div>
+
+<footer class="footer mt-auto py-4 bg-dark text-white">
+    <div class="container text-center">
+        <p class="mb-0">This website is for Kristu Jayanti College to report lost and found items.</p>
+        <p>Contact Us: <i class="fas fa-map-marker-alt"></i> Kristu Jayanti College, Bengaluru | <i class="fas fa-phone-alt"></i> +91 123 456 7890 | <i class="fas fa-envelope"></i> info@example.com</p>
+        <p>&copy; 2024 Kristu Jayanti College - Lost and Found</p>
+    </div>
+</footer>
+
+<!-- Bootstrap JS, Popper.js, and jQuery -->
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+    function displayItems(filter = 'lost', sortBy = null) {
+        let items = JSON.parse(localStorage.getItem('lostAndFoundItems')) || [];
+
+        // Sort items by date in ascending order if sortBy is 'dateAsc'
+        if (sortBy === 'dateAsc') {
+            items.sort((a, b) => new Date(a.date) - new Date(b.date));
+        }
+
+        let itemsContainer = document.getElementById('items-container');
+        itemsContainer.innerHTML = '';
+
+        items.forEach(item => {
+            const cardHtml = `
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">${item.name}</h5>
+                            <p class="card-text">Type: ${item.status.charAt(0).toUpperCase() + item.status.slice(1)}</p>
+                            <p class="card-text">Date: ${item.date}</p>
+                            <p class="card-text">${item.details}</p>
+                            <p class="card-text"><small class="text-muted">Name: ${item.owner}</small></p>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            if ((filter === 'lost' && item.status === 'lost') || (filter === 'found' && item.status === 'found')) {
+                itemsContainer.insertAdjacentHTML('beforeend', cardHtml);
+            }
+        });
+    }
+
+    document.getElementById('show-lost').addEventListener('click', function() {
+        displayItems('lost');
+        document.getElementById('show-lost').classList.add('highlight');
+        document.getElementById('show-found').classList.remove('highlight');
+    });
+
+    document.getElementById('show-found').addEventListener('click', function() {
+        displayItems('found');
+        document.getElementById('show-found').classList.add('highlight');
+        document.getElementById('show-lost').classList.remove('highlight');
+    });
+
+    document.getElementById('sort-date-asc').addEventListener('click', function() {
+        // Determine current filter (lost or found)
+        let currentFilter = document.getElementById('show-lost').classList.contains('highlight') ? 'lost' : 'found';
+        displayItems(currentFilter, 'dateAsc'); // Display items sorted by date asc for current filter
+        document.getElementById('sort-date-asc').classList.add('highlight');
+    });
+
+    // Display items sorted by date asc on initial load
+    document.addEventListener('DOMContentLoaded', function() {
+        displayItems('lost'); // Display lost items by default
+    });
+
+    document.getElementById("requestForm").addEventListener("submit", function(event) {
+        event.preventDefault();
+
+        var email = document.getElementById("email").value;
+        var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+        if (!emailPattern.test(email)) {
+            document.getElementById("email").classList.add("is-invalid");
+            return false;
+        } else {
+            document.getElementById("email").classList.remove("is-invalid");
+        }
+
+        var username = document.getElementById("username").value;
+        var itemId = document.getElementById("itemId").value;
+        var message = document.getElementById("message").value;
+
+        var newItem = {
+            name: itemId,
+            date: new Date().toLocaleDateString(),
+            details: message,
+            owner: username,
+            status: "lost"
+        };
+
+        // Store request details separately for admin panel
+        var requests = JSON.parse(localStorage.getItem('requests')) || [];
+        requests.push(newItem);
+        localStorage.setItem('requests', JSON.stringify(requests));
+
+        // Show success toast
+        $('#successToast').toast({ delay: 3000 });
+        $('#successToast').toast('show');
+
+        $('#requestModal').modal('hide');
+        displayItems();
+    });
+</script>
+
+</body>
+</html>

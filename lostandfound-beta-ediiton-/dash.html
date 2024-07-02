@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/navbar-fixed/">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: Arial, sans-serif;
+        }
+
+        .navbar {
+            background-color: rgba(52, 73, 94, 1) !important;
+        }
+
+        .navbar-brand {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .navbar-nav .nav-link {
+            color: #ffffff;
+            font-weight: bold;
+        }
+
+        .container {
+            max-width: 1200px;
+        }
+
+        .sidebar {
+            background-color: #343a40;
+            color: #ffffff;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .sidebar a {
+            color: #ffffff;
+            text-decoration: none;
+            display: block;
+            padding: 10px;
+            margin: 5px 0;
+            cursor: pointer;
+        }
+
+        .sidebar a i {
+            margin-right: 10px;
+        }
+
+        .sidebar a:hover {
+            background-color: #495057;
+        }
+
+        .main-content {
+            padding: 20px;
+        }
+
+        .main-content h1 {
+            font-size: 2rem;
+            color: #343a40;
+        }
+
+        .chart-container {
+            width: 100%;
+            height: 400px;
+            margin-bottom: 20px;
+        }
+
+        #itemsChart {
+            width: 100%;
+            height: 100%;
+        }
+
+        .recent-requests {
+            margin-top: 20px;
+            height: 300px;
+            overflow-y: auto;
+        }
+
+        .recent-requests .card-header {
+            background-color: #007bff;
+            color: #ffffff;
+        }
+
+        .stats-cards {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .card {
+            flex: 1;
+            padding: 20px;
+            text-align: center;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .card .card-title {
+            font-size: 1.25rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .card .card-number {
+            font-size: 2rem;
+            color: #007bff;
+        }
+        #requestedFormsContent {
+    display: flex;
+    flex-wrap: wrap; /* Allow wrapping of cards to the next line if needed */
+    gap: 20px; /* Space between each card */
+}
+
+.card {
+    flex: 1 0 100px; /* Flex properties for each card */
+    margin-bottom: 20px; /* Bottom margin for spacing between cards */
+}
+
+
+        @media (max-width: 767.98px) {
+            .sidebar {
+                display: none;
+            }
+        }
+
+        .offcanvas-body .sidebar a {
+            padding: 10px 0;
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-md navbar-dark navbar-bg p-4">
+        <div class="container-fluid">
+            <img src="kjc-flag-latest.png" width="290" height="auto" alt="Logo" class="navbar-logo">
+            <span class="navbar-text mx-auto text-white" style="font-size: 1.5rem;">Lost and Found</span>
+            <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <form class="d-flex" role="search">
+                <a href="index.html" class="btn btn-primary submit" type="submit">Home</a>
+            </form>
+        </div>
+    </nav>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-3 col-lg-2 sidebar d-none d-md-block">
+                <h4>Menu</h4>
+                <a href="#" onclick="showDashboard()"><i class="fas fa-tachometer-alt"></i>Dashboard</a>
+                <a href="#" onclick="showRequestedForms()"><i class="fas fa-file-alt"></i>Requested Forms</a>
+                <a href="#" onclick="showUploadItems()"><i class="fas fa-upload"></i>Upload Items</a>
+                <a href="#" onclick="showIssuedItems()"><i class="fas fa-box"></i>Issued Items</a>
+            </div>
+
+            <div class="offcanvas offcanvas-start d-md-none" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+                <div class="offcanvas-header">
+                    <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Menu</h5>
+                    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <div class="offcanvas-body">
+                    <a href="#" onclick="showDashboard()"><i class="fas fa-tachometer-alt"></i>Dashboard</a>
+                    <a href="#" onclick="showRequestedForms()"><i class="fas fa-file-alt"></i>Requested Forms</a>
+                    <a href="#" onclick="showUploadItems()"><i class="fas fa-upload"></i>Upload Items</a>
+                    <a href="#" onclick="showIssuedItems()"><i class="fas fa-box"></i>Issued Items</a>
+                </div>
+            </div>
+
+            <main class="col-md-9 col-lg-10 main-content" id="mainContent">
+                <div id="dashboardContent">
+                    <h1>Welcome to the Admin Dashboard</h1>
+                    
+                    <div class="stats-cards">
+                        <div class="card">
+                            <div class="card-title">Lost Items</div>
+                            <div class="card-number" id="lostItemsCount">0</div>
+                        </div>
+                        <div class="card">
+                            <div class="card-title">Found Items</div>
+                            <div class="card-number" id="foundItemsCount">0</div>
+                        </div>
+                        <div class="card">
+                            <div class="card-title">Requested Forms</div>
+                            <div class="card-number" id="requestedFormsCount">0</div>
+                            
+                       </div>
+                        <div class="card">
+                            <div class="card-title">Issued Items</div>
+                            <div class="card-number" id="issuedItemsCount">0</div>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="card recent-requests">
+                                <div class="card-header">Recent Requested Items</div>
+                                <ul class="list-group list-group-flush" id="recentRequestsList"></ul>
+                            </div>
+                            
+                        </div>
+                        
+                        <div class="col-md-8">
+                            <div class="chart-container">
+                                <canvas id="itemsChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="requestedFormsContent" style="display: none;">
+                    <h1>Requested Forms</h1>
+                </div>
+
+                <div id="uploadItemsContent" style="display: none;">
+                    <h1>Upload Items</h1>
+                    <div class="content">
+                        <h2>Add Lost and Found Item</h2>
+                        <form id="add-item-form">
+                            <div class="form-group">
+                                <label for="itemName">Item Name</label>
+                                <input type="text" class="form-control" id="itemName" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="itemStatus">Status</label>
+                                <select class="form-control" id="itemStatus" required>
+                                    <option value="lost">Lost</option>
+                                    <option value="found">Found</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="itemDate">Date</label>
+                                <input type="date" class="form-control" id="itemDate" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="itemDetails">Details</label>
+                                <textarea class="form-control" id="itemDetails" rows="3" required></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="itemOwner">Name</label>
+                                <input type="text" class="form-control" id="itemOwner" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Add Item</button>
+                        </form>
+                    </div>
+                </div>
+
+                <div id="issuedItemsContent" style="display: none;">
+                    <h1>Issued Items</h1>
+                </div>
+            </main>
+        </div>
+    </div>
+    <div class="modal fade" id="addItemModal" tabindex="-1" aria-labelledby="addItemModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addItemModalLabel">Item Added</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Your item has been successfully added to the inventory.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.5.1/chart.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var ctx = document.getElementById('itemsChart').getContext('2d');
+            var itemsChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+                    datasets: [{
+                        label: 'Lost Items',
+                        data: [3, 2, 1, 3, 5, 4, 6],
+                        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                        borderColor: 'rgba(255, 99, 132, 1)',
+                        borderWidth: 1
+                    }, {
+                        label: 'Found Items',
+                        data: [2, 3, 4, 2, 1, 3, 2],
+                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+
+            displayItems();
+            displayRequests();
+        });
+
+        function displayItems() {
+            let items = JSON.parse(localStorage.getItem('lostAndFoundItems')) || [];
+            let lostItemsCount = 0;
+            let foundItemsCount = 0;
+            items.forEach(item => {
+                if (item.status === 'lost') {
+                    lostItemsCount++;
+                } else {
+                    foundItemsCount++;
+                }
+            });
+            document.getElementById('lostItemsCount').textContent = lostItemsCount;
+            document.getElementById('foundItemsCount').textContent = foundItemsCount;
+        }
+
+        function displayRequests() {
+    let requests = JSON.parse(localStorage.getItem('requests')) || [];
+    let recentRequestsList = document.getElementById('recentRequestsList');
+    let requestedFormsContent = document.getElementById('requestedFormsContent');
+
+    // Clear existing content
+    recentRequestsList.innerHTML = '';
+    requestedFormsContent.innerHTML = '';
+
+    // Sort requests by date in descending order (newest first)
+    requests.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+    requests.forEach(request => {
+        // Create list item for recent requests (optional)
+        const listItem = document.createElement('li');
+        listItem.classList.add('list-group-item');
+        listItem.innerHTML = `
+            <strong>${request.name}</strong> - ${request.date}
+            <p>${request.details}</p>
+            <small class="text-muted">Owner: ${request.owner}</small>
+        `;
+
+        // Append list item to recentRequestsList (prepend for newest first)
+        recentRequestsList.prepend(listItem);
+
+        // Create card HTML for requested forms content
+        const cardHtml = `
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">${request.name}</h5>
+                        <p class="card-text">Date: ${request.date}</p>
+                        <p class="card-text">${request.details}</p>
+                        <p class="card-text"><small class="text-muted">Owner: ${request.owner}</small></p>
+                         <div class="button-group">
+                <button class="btn btn-warning btn-sm" onclick="markAsIssued(${request.id})">Issue</button>
+                <button class="btn btn-danger btn-sm" onclick="deleteRequest(${request.id})">Delete</button>
+            </div>
+                    </div>
+                </div>
+            </div>
+        `;
+        
+        // Append card HTML to requestedFormsContent
+        requestedFormsContent.insertAdjacentHTML('beforeend', cardHtml);
+    });
+    
+
+    document.getElementById('requestedFormsCount').textContent = requests.length;
+}
+
+
+
+
+        function showDashboard() {
+            document.getElementById('dashboardContent').style.display = 'block';
+            document.getElementById('requestedFormsContent').style.display = 'none';
+            document.getElementById('uploadItemsContent').style.display = 'none';
+            document.getElementById('issuedItemsContent').style.display = 'none';
+        }
+
+        function showRequestedForms() {
+            document.getElementById('dashboardContent').style.display = 'none';
+            document.getElementById('requestedFormsContent').style.display = 'block';
+            document.getElementById('uploadItemsContent').style.display = 'none';
+            document.getElementById('issuedItemsContent').style.display = 'none';
+        }
+
+        function showUploadItems() {
+            document.getElementById('dashboardContent').style.display = 'none';
+            document.getElementById('requestedFormsContent').style.display = 'none';
+            document.getElementById('uploadItemsContent').style.display = 'block';
+            document.getElementById('issuedItemsContent').style.display = 'none';
+
+            const form = document.getElementById('add-item-form');
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const itemName = document.getElementById('itemName').value;
+                const itemStatus = document.getElementById('itemStatus').value;
+                const itemDate = document.getElementById('itemDate').value;
+                const itemDetails = document.getElementById('itemDetails').value;
+                const itemOwner = document.getElementById('itemOwner').value;
+
+                const newItem = {
+                    name: itemName,
+                    status: itemStatus,
+                    date: itemDate,
+                    details: itemDetails,
+                    owner: itemOwner
+                };
+
+                let items = JSON.parse(localStorage.getItem('lostAndFoundItems')) || [];
+                items.push(newItem);
+                localStorage.setItem('lostAndFoundItems', JSON.stringify(items));
+
+                displayItems();
+                form.reset();
+            });
+        }
+
+        function showIssuedItems() {
+            document.getElementById('dashboardContent').style.display = 'none';
+            document.getElementById('requestedFormsContent').style.display = 'none';
+            document.getElementById('uploadItemsContent').style.display = 'none';
+            document.getElementById('issuedItemsContent').style.display = 'block';
+        }
+    </script>
+</body>
+</html>
